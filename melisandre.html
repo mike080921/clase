@@ -1,0 +1,123 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    
+
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.slim.js"
+  integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+  crossorigin="anonymous"></script>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=zP5CvZnH"></script>
+
+<script>if (window.module) module = window.module;</script>
+
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+        <title>Melisandre</title>
+  </head>
+    <body background="https://images.pexels.com/photos/1374891/pexels-photo-1374891.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+   
+  <a href="https://github.com/obedmhg/melisandre"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+   
+      <div align="center">
+      <img id="mainImage" height="300"/><br>
+      <textarea rows="1" cols="100" placeholder="Que quieres Saber?" id="q"></textarea><br>
+      <input id="responde" type="submit" value="Responde Melisandre" class="button black"></input>
+      <div id="r" style="display: none;"></div>
+       
+      </div>
+      <script>
+      responsiveVoice.setDefaultVoice("Spanish Latin American Female");
+      var isAsking = false;
+      var response = "";
+      var counter = 1;
+        var masterQuestion = "Melisandre, estas ahi?, responde por favor, estamos esperandote";
+        var partOfMQ = "Melisandre, estas ahi?";
+        var elisaAns = new Array ("Pequeños hombres maldicen lo que no pueden entender.", 
+                                  "Elegimos la luz, o elegimos la oscuridad. Elegimos ser buenos, o elegimos ser malos. Elegimos al verdadero Dios, o a los falsos.", "La noche es oscura y llena de terrores.", "Los muertos no necesitan amantes. Sólo los vivos.",
+                                  "No Estoy de humor!!\n",
+                                  "Solamente hay un infierno, en el cual vivimos ahora.",
+                                  "Hay sólo una guerra. La vida contra la muerte",
+                                  "La muerte viene por todos y todo. Una oscuridad que se tragará el alba." );
+        var elisaNonAns = new Array  ("No quiero jugar contigo!!!\n",
+                "Muerete!!\n", "Dejame en paz!\n", "No te entiendo..\n");
+        var mainImages = new Array  ("./m1.jpg", "./m2.jpg", "./m3.jpg",  "./m4.jpg", "https://pa1.narvii.com/7152/8104314717e69774b4ff4fa91d3add6dd73d9ff6r1-500-270_hq.gif", "https://pa1.narvii.com/7152/5f671b23d852e63d4535006ec9e07139d199fe74r1-500-281_hq.gif", "https://pa1.narvii.com/7152/e6373634a6a27b44d3978d43b127ce8d986e72c0r1-500-230_hq.gif", "");
+         
+        $("#mainImage").attr("src", mainImages[getRandomIndex()]);      
+             
+        $("#q").keydown(function(e){   
+          if (e.which == 190) {
+              if (isAsking == true) {
+                  isAsking = false;
+              } else {
+                  isAsking = true;
+              }
+              e.preventDefault();
+        }
+            if (isAsking == true && counter < masterQuestion.length) {
+                if (e.which == 8 && counter > 0) {
+                    counter = counter - 1;
+                    response = response.substring(0, response.length - 1);
+                } else {
+                    if(e.which != 8 && e.which != 0 && e.which != 32 && (e.which < 48 || e.which > 57) && (e.which < 97 || e.which > 122) && (e.which < 65 || e.which > 90)) {
+                        e.preventDefault();
+                    } else {
+                        response = response + String.fromCharCode(e.which);
+                        $("#q").val(masterQuestion.substring(0, counter));
+                        counter++;
+                    }
+                }
+              e.preventDefault();
+            }
+            $("#r").html(response);
+             
+             
+            if ($("#q").val() == partOfMQ) {
+                //alert( elisaAns[getRandomIndex()] );
+                responsiveVoice.speak(elisaAns[getRandomIndex()]);
+            }
+        });
+         
+         
+        $( "#responde" ).click(function() {
+               
+              if($("#r").html().trim().length != 0) {
+//                  alert( $("#r").html() );
+                  responsiveVoice.speak($("#r").html());
+  
+              } else {
+  //                alert( elisaNonAns[getRandomIndex()] );
+                  responsiveVoice.speak(elisaAns[getRandomIndex()]);
+              }
+              resetValues();
+               
+        });
+  
+         
+        function getRandomIndex () {
+            return Math.floor(Math.random() * (3 - 0 + 1)) + 0;
+        }
+         
+        function resetValues() {
+            isAsking = false;
+            response = "";
+            counter = 1;
+            masterQuestion = "Melisandre, estas ahi?, responde por favor, estamos esperandote";
+            partOfMQ = "Melisandre, estas ahi?";
+            elisaAns = new Array ("Pequeños hombres maldicen lo que no pueden entender.", 
+                                  "Elegimos la luz, o elegimos la oscuridad. Elegimos ser buenos, o elegimos ser malos. Elegimos al verdadero Dios, o a los falsos.", "La noche es oscura y llena de terrores.", "Los muertos no necesitan amantes. Sólo los vivos.",
+                                  "No Estoy de humor!!\n",
+                                  "Solamente hay un infierno, en el cual vivimos ahora.",
+                                  "Hay sólo una guerra. La vida contra la muerte",
+                                  "La muerte viene por todos y todo. Una oscuridad que se tragará el alba." );
+            elisaNonAns = new Array  ("No quiero jugar contigo!!!\n",
+                    "Muerete!!\n", "Dejame en paz!\n", "No te entiendo..\n");
+          $("#q").val("");
+        $("#mainImage").attr("src", mainImages[getRandomIndex()]);
+        }
+         
+      </script>
+       
+       
+  </body>
+</html>
