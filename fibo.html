@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fibonacci Sequence Calculator</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<h1>Fibonacci Sequence Calculator</h1>
+	<p>Enter a number to generate the Fibonacci sequence:</p>
+	<input type="number" id="fibInput">
+	<button onclick="calculateFibonacci()">Generate</button>
+	<script>
+		function fibonacciRecursive(n) {
+			if (n <= 1) {
+				return n;
+			}
+			return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+		}
+
+		function calculateFibonacci() {
+			const n = parseInt(document.getElementById("fibInput").value);
+			let fibonacciSequence = [];
+
+			// Generate the first n numbers in the Fibonacci sequence
+			for (let i = 0; i < n; i++) {
+				fibonacciSequence.push(fibonacciRecursive(i));
+			}
+
+			// Display the sequence in an alert
+			alert(`The first ${n} numbers in the Fibonacci sequence are: ${fibonacciSequence.join(", ")}`);
+		}
+	</script>
+</body>
+</html>

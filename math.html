@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title> inicio</title>
+</head>
+
+<body>
+    <input type="number" id="n1" />
+    <input type="number" id="n2" />
+    <button onclick="operacion()"> multiplica </button>
+    <script>
+        function operacion() {
+          const n1 = parseInt(document.getElementById("n1").value);
+            const n2 = parseInt(document.getElementById("n2").value);
+            const total=n1 * n2;
+            alert(total);
+        }
+    </script>
+
+</body>
+
+</html>
