@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Game</title>
+    <style>
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="200"></canvas>
+    <script>
+    	let points = 0;
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0 };
+        let obstacle = { x: canvas.width, y: 150, width: 20, height: 20 };
+        let gravity = 0.5;
+        let isJumping = false;
+        let gameSpeed = 5;
+
+        function update() {
+            clearCanvas();
+
+            dino.velocityY += gravity;
+            dino.y += dino.velocityY;
+
+            if (dino.y > 150) {
+                dino.y = 150;
+                dino.velocityY = 0;
+                isJumping = false;
+            }
+
+            obstacle.x -= gameSpeed;
+            if (obstacle.x < -20) {
+                obstacle.x = canvas.width;
+                gameSpeed += 0.1;
+                points++;
+            }
+
+            if (collision(dino, obstacle)) {
+                gameSpeed = 5;
+                obstacle.x = canvas.width;
+            }
+
+            drawDino();
+            drawObstacle();
+
+            requestAnimationFrame(update);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawDino() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+        }
+
+        function drawObstacle() {
+            ctx.fillStyle = "red";
+            ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        }
+
+        function collision(a, b) {
+            return (
+                a.x < b.x + b.width &&
+                a.x + a.width > b.x &&
+                a.y < b.y + b.height &&
+                a.y + a.height > b.y
+            );
+        }
+
+        function jump() {
+            if (!isJumping) {
+                isJumping = true;
+                dino.velocityY = -10;
+            }
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.code === "Space") {
+                jump();
+            }
+        });
+
+        update();
+    </script>
+</body>
+</html>
